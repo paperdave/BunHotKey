@@ -1,3 +1,4 @@
+#pragma once
 #include "init.h"
 #include <xdo.h>
 #include <stdio.h>

@@ -1,3 +1,4 @@
+#pragma once
 #include "init.h"
 #include <fcntl.h>
 #include <linux/input.h>
