@@ -1,6 +1,6 @@
 import { ProcessRef } from "./ProcessRef";
+import { ffi } from "./lib";
 import { buffer, buffer_ptr, encodeText } from "./shared";
-import * as ffi from "./ffi";
 
 export type WindowID = number | bigint;
 

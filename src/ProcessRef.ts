@@ -1,5 +1,5 @@
 import { readFileSync, readlinkSync } from "fs";
-import * as ffi from "./ffi";
+import { ffi } from "./lib";
 
 export class ProcessRef {
   constructor(public pid: number) {}
@@ -38,6 +38,6 @@ export class ProcessRef {
   }
 
   kill() {
-    // return ffi.kill(this.pid, 9);
+    return ffi.kill(this.pid, 9);
   }
 }

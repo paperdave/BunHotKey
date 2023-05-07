@@ -1,4 +1,4 @@
-import * as ffi from "./ffi";
+import { ffi } from "./lib";
 import { buffer, buffer_ptr } from "./shared";
 import { WindowRef } from "./WindowRef";
 
