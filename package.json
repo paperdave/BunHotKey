@@ -1,0 +1,14 @@
+{
+  "name": "bhk",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "canary"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@paperdave/utils": "^1.6.1"
+  }
+}
