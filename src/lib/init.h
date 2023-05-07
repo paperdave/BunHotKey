@@ -4,3 +4,6 @@
 
 extern Display *display;
 extern xdo_t *xdo;
+
+void init();
+void deinit();
