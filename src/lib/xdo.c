@@ -1,18 +1,11 @@
+#include "init.h"
 #include <xdo.h>
 #include <stdio.h>
 #include <sys/types.h>
 #include <signal.h>
+#include <unistd.h>
 
-xdo_t* xdo;
 Window win;
-
-void init() {
-  xdo = xdo_new(":0");
-}
-
-void deinit() {
-  xdo_free(xdo);
-}
 
 int get_active_window() {
   xdo_get_active_window(xdo, &win);

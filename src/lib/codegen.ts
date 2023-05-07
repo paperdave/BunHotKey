@@ -1,11 +1,7 @@
-import { readdirSync } from "fs";
-
+const files = process.argv.slice(2);
 const headers = Bun.spawnSync({
-  cmd: [
-    "cproto",
-    ...readdirSync(import.meta.dir).filter((x) => x.endsWith(".c")),
-  ],
-  cwd: import.meta.dir,
+  cmd: ["cproto", ...files],
+  cwd: import.meta.dir + "/../../",
 });
 const text = headers.stdout.toString("utf-8");
 const lines = text

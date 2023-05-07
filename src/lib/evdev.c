@@ -56,7 +56,6 @@ void* jsevdev_thread(void* args) {
 }
 
 struct jsevdev* jsevdev_init(const char* dev, bool grab, void* callback) {
-  printf("Initializing external emitter on %s\n", dev);
   int fd = open(dev, O_RDONLY);
   if (fd == -1) {
     printf("Cannot open %s: %s.\n", dev, strerror(errno));

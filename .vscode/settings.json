@@ -1,0 +1,13 @@
+{
+  "files.associations": {
+    "*.{setting,comp,fuse,fu}": "lua",
+    "*.ctk": "json",
+    "*.json5": "json5",
+    "*.json": "jsonc",
+    "*.scriptlib": "lua",
+    "signal.h": "c",
+    "stdio.h": "c",
+    "xlib.h": "c",
+    "chrono": "cpp"
+  }
+}

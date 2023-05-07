@@ -4,6 +4,7 @@ import { encodeText } from "./shared";
 import { Timer } from "@paperdave/utils";
 import EventEmitter from "events";
 import { EventDeviceType, Key } from "./input-enum";
+import { Ref } from "./ref";
 
 enum KeyPressType {
   up = 0,
@@ -14,7 +15,7 @@ enum KeyPressType {
 export class EventDevice {
   #id: Pointer;
   #cb: JSCallback;
-  #ref: Timer;
+  #ref: Ref;
   #ee = new EventEmitter();
 
   constructor(device: string, grab = true) {
@@ -38,7 +39,7 @@ export class EventDevice {
       this.#cb.close();
       throw new Error("Failed to init external device reader");
     }
-    this.#ref = setInterval(() => {}, 2 ** 31 - 1);
+    this.#ref = new Ref();
   }
 
   addListener(

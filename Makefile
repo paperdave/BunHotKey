@@ -1,3 +1,7 @@
-src/lib/bhk.so src/lib/index.ts: $(shell find src/lib/*.c -type f) src/lib/codegen.ts
-	clang -fPIC -lxdo -shared -o src/lib/bhk.so src/lib/*.c
-	bun src/lib/codegen.ts
+# C_SOURCES = $(wildcard src/lib/*.c)
+C_SOURCES = src/lib/x11bind.c
+LINKER_FLAGS = -lxdo -lX11
+
+src/lib/bhk.so src/lib/index.ts: src/lib/codegen.ts $(C_SOURCES)
+	clang -fPIC -shared -o src/lib/bhk.so $(C_SOURCES) $(LINKER_FLAGS)
+	bun src/lib/codegen.ts $(C_SOURCES)
