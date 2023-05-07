@@ -1,5 +1,4 @@
-# C_SOURCES = $(wildcard src/lib/*.c)
-C_SOURCES = src/lib/x11bind.c
+C_SOURCES = $(wildcard src/lib/*.c)
 LINKER_FLAGS = -lxdo -lX11
 
 src/lib/bhk.so src/lib/index.ts: src/lib/codegen.ts $(C_SOURCES)

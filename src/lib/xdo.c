@@ -1,9 +1,4 @@
-#include "init.h"
-#include <xdo.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <signal.h>
-#include <unistd.h>
+#include "xdo.h"
 
 Window win;
 

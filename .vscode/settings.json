@@ -8,6 +8,8 @@
     "signal.h": "c",
     "stdio.h": "c",
     "xlib.h": "c",
-    "chrono": "cpp"
+    "chrono": "cpp",
+    "xdo.h": "c",
+    "init.h": "c"
   }
 }
