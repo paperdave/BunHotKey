@@ -27,7 +27,7 @@ export function oneTickMemo<T extends AnyFunction>(fn: T): T {
       return cache.get(fn);
     }
     const result = fn(...args);
-    cache.set(fn, result);
+    // cache.set(fn, result);
     return result;
   }) as T;
 }
@@ -37,7 +37,7 @@ export function oneTickFetch<T extends AnyFunction>(fn: T): ReturnType<T> {
     return cache.get(fn);
   }
   const result = fn();
-  cache.set(fn, result);
+  // cache.set(fn, result);
   return result;
 }
 
@@ -46,7 +46,7 @@ export function oneTickGet(key: any): any {
 }
 
 export function oneTickSet<T>(key: any, value: T): T {
-  cache.set(key, value);
+  // cache.set(key, value);
   return value;
 }
 

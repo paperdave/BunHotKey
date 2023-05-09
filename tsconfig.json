@@ -18,7 +18,7 @@
       "bun-types" // add Bun global
     ],
     "paths": {
-      "bhk": ["./src/index"]
+      "bhk": ["./dist/index.js", "./src/index"]
     }
   }
 }

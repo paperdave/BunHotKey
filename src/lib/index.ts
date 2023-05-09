@@ -2,13 +2,35 @@
 import { FFIType, dlopen, suffix } from "bun:ffi";
 import path from "path";
 
-const library = dlopen(path.join(import.meta.dir, `bhk.${suffix}`), {
-  init: {
+type Libraries = Partial<
+  Record<Platform, Partial<Record<Architecture, string>>>
+>;
 
-  },
-  deinit: {
+let libPath: string;
+if (process.env.BHK_PRODUCTION) {
+  const libraries: Libraries = {
+    linux: {
+      x64: "bhk.linux-x86_64.so",
+    },
+  };
+  const platform = libraries[process.platform];
+  if (!platform) {
+    throw new Error(`Unsupported platform: ${process.platform}`);
+  }
+  const library = platform[process.arch];
+  if (!library) {
+    throw new Error(
+      `Unsupported architecture: ${process.arch} on ${process.platform}`
+    );
+  }
+  libPath = path.join(import.meta.dir, library);
+} else {
+  libPath = path.join(import.meta.dir, `../../zig-out/bhk.${suffix}`);
+}
 
-  },
+const library = dlopen(libPath, {
+  init: {},
+  deinit: {},
   jsevdev_thread: {
     args: [FFIType.pointer],
     returns: FFIType.pointer,
@@ -146,6 +168,7 @@ const library = dlopen(path.join(import.meta.dir, `bhk.${suffix}`), {
   },
 });
 if (!library.symbols) {
+  console.error(`BunHotKey library path: ${libPath}`);
   throw library;
 }
 

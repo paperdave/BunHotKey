@@ -54,8 +54,7 @@ export const ui = {
       return oneTickFetch(getMousePos);
     },
     set pos(pos: { x?: number; y?: number; screen?: number }) {
-      const ref = ui.mouse.pos;
-      ffi.move_mouse(pos.x ?? ref.x, pos.y ?? ref.y, pos.screen ?? ref.screen);
+      ffi.move_mouse(pos.x ?? ui.mouse.pos.x, pos.y ?? ui.mouse.pos.y, 0);
     },
     moveTo(x: number, y: number, screen = 0) {
       ffi.move_mouse(x, y, screen);

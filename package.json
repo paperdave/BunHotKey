@@ -9,6 +9,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@paperdave/utils": "^1.6.1"
+    "@paperdave/utils": "^1.6.1",
+    "esbuild": "^0.17.18"
   }
 }
