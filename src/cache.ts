@@ -19,15 +19,37 @@ export class OneTickCache<K, V> extends Map<K, V> {
   }
 }
 
-const memos = new OneTickCache<Function, any>();
+const cache = new OneTickCache<any, any>();
 
 export function oneTickMemo<T extends AnyFunction>(fn: T): T {
   return ((...args: Parameters<T>) => {
-    if (memos.has(fn)) {
-      return memos.get(fn);
+    if (cache.has(fn)) {
+      return cache.get(fn);
     }
     const result = fn(...args);
-    memos.set(fn, result);
+    cache.set(fn, result);
     return result;
   }) as T;
+}
+
+export function oneTickFetch<T extends AnyFunction>(fn: T): ReturnType<T> {
+  if (cache.has(fn)) {
+    return cache.get(fn);
+  }
+  const result = fn();
+  cache.set(fn, result);
+  return result;
+}
+
+export function oneTickGet(key: any): any {
+  return cache.get(key);
+}
+
+export function oneTickSet<T>(key: any, value: T): T {
+  cache.set(key, value);
+  return value;
+}
+
+export function oneTickDelete(key: any): void {
+  cache.delete(key);
 }

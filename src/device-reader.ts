@@ -106,5 +106,3 @@ export {
   isKeyboardDevice,
   isKeyboardNameExcluded,
 };
-
-console.log(getKeyboardDevices());

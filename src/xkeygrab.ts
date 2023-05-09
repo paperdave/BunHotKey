@@ -7,7 +7,7 @@ import { Ref } from "./ref";
 
 const Mod2Mask = 1 << 1;
 
-interface KeyGrabEvent {
+export interface KeyGrabEvent {
   // type: number;
   key: number;
   modifiers: number;
@@ -122,10 +122,3 @@ class XKeyGrab {
     this.#ref.unref();
   }
 }
-
-const keygrab = new XKeyGrab(
-  { key: 67 /* f1 */, modifiers: 1 << 6 /* mod4 (super) */ },
-  (event) => {
-    console.log("keygrab event", event);
-  }
-);

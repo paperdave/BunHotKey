@@ -1,3 +1,4 @@
+import { oneTickFetch } from "./cache";
 import { ffi } from "./lib";
 import { buffer, buffer_ptr } from "./shared";
 import { WindowRef } from "./WindowRef";
@@ -34,17 +35,23 @@ class MousePos {
   }
 }
 
+const getActiveWindow = () => new WindowRef(ffi.get_active_window());
+const getHoveredWindow = () => new WindowRef(ffi.get_window_at_mouse());
+const getMousePos = () => {
+  ffi.get_mouse_location(buffer_ptr);
+  return new MousePos(buffer[0], buffer[1], buffer[2]);
+};
+
 export const ui = {
   get activeWindow() {
-    return new WindowRef(ffi.get_active_window());
+    return oneTickFetch(getActiveWindow);
   },
   get hoveredWindow() {
-    return new WindowRef(ffi.get_window_at_mouse());
+    return oneTickFetch(getHoveredWindow);
   },
   mouse: {
     get pos(): MousePos {
-      ffi.get_mouse_location(buffer_ptr);
-      return new MousePos(buffer[0], buffer[1], buffer[2]);
+      return oneTickFetch(getMousePos);
     },
     set pos(pos: { x?: number; y?: number; screen?: number }) {
       const ref = ui.mouse.pos;

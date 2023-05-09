@@ -1,4 +1,5 @@
 import { ProcessRef } from "./ProcessRef";
+import { OneTickCache, oneTickDelete, oneTickGet, oneTickSet } from "./cache";
 import { ffi } from "./lib";
 import { buffer, buffer_ptr, encodeText } from "./shared";
 
@@ -28,6 +29,7 @@ class WindowPos {
     ffi.move_window(this.#id, this.#x, this.#y);
   }
 }
+
 class WindowSize {
   #id: WindowID;
   #w: number;
@@ -56,83 +58,132 @@ class WindowSize {
 export class WindowRef {
   constructor(readonly id: WindowID) {}
 
+  #pid: number | null = null;
   get pid() {
-    return ffi.get_window_pid(this.id);
+    return this.#pid ?? (this.#pid = ffi.get_window_pid(this.id));
   }
 
+  #proc: ProcessRef | null | undefined = undefined;
   get proc() {
-    const pid = this.pid;
+    if (this.#proc !== undefined) return this.#proc;
+    var pid = this.pid;
     if (!pid) return null;
-    return new ProcessRef(this.pid);
+    return (this.#proc = new ProcessRef(pid));
   }
 
   get name() {
-    return "" + ffi.get_window_name(this.id);
+    var { id } = this;
+    var k = `WindowRef.name:${id}`;
+    var cache = oneTickGet(k);
+    if (cache) return cache;
+    return oneTickSet(k, "" + ffi.get_window_name(id));
   }
 
   get pos(): WindowPos {
-    ffi.get_window_location(this.id, buffer_ptr);
-    return new WindowPos(this.id, buffer[0], buffer[1]);
+    var { id } = this;
+    var k = `WindowRef.pos:${id}`;
+    var cache = oneTickGet(k);
+    if (cache) return cache;
+    ffi.get_window_location(id, buffer_ptr);
+    return oneTickSet(k, new WindowPos(id, buffer[0], buffer[1]));
   }
 
   set pos(pos: { x?: number; y?: number; screen?: number }) {
-    const ref = this.pos;
-    ffi.move_window(this.id, pos.x ?? ref.x, pos.y ?? ref.y);
+    const { id } = this;
+    ffi.move_window(id, pos.x ?? this.pos.x, pos.y ?? this.pos.y);
+    oneTickDelete(`WindowRef.pos:${id}`);
+    oneTickDelete(`WindowRef.x:${id}`);
+    oneTickDelete(`WindowRef.y:${id}`);
   }
 
   get size(): WindowSize {
-    ffi.get_window_size(this.id, buffer_ptr);
-    return new WindowSize(this.id, buffer[0], buffer[1]);
+    var { id } = this;
+    var k = `WindowRef.size:${id}`;
+    var cache = oneTickGet(k);
+    if (cache) return cache;
+    ffi.get_window_size(id, buffer_ptr);
+    return oneTickSet(k, new WindowSize(id, buffer[0], buffer[1]));
   }
 
   set size(size: { width?: number; height?: number }) {
-    const ref = this.size;
+    const { id } = this;
     ffi.set_window_size(
-      this.id,
-      size.width ?? ref.width,
-      size.height ?? ref.height,
+      id,
+      size.width ?? this.size.width,
+      size.height ?? this.size.height,
       0
     );
+    oneTickDelete(`WindowRef.pos:${id}`);
+    oneTickDelete(`WindowRef.width:${id}`);
+    oneTickDelete(`WindowRef.height:${id}`);
   }
 
   get x() {
+    var { id } = this;
+    var k = `WindowRef.x:${id}`;
+    var cache = oneTickGet(k);
+    if (cache) return cache;
     ffi.get_window_location(this.id, buffer_ptr);
-    return buffer[0];
+    return oneTickSet(k, buffer[0]);
   }
 
   set x(x: number) {
-    ffi.get_window_location(this.id, buffer_ptr);
-    ffi.move_window(this.id, x, buffer[1]);
+    var { id } = this;
+    ffi.get_window_location(id, buffer_ptr);
+    ffi.move_window(id, x, buffer[1]);
+    oneTickDelete(`WindowRef.x:${id}`);
+    oneTickDelete(`WindowRef.pos:${id}`);
   }
 
   get y() {
-    ffi.get_window_location(this.id, buffer_ptr);
-    return buffer[1];
+    var { id } = this;
+    var k = `WindowRef.y:${id}`;
+    var cache = oneTickGet(k);
+    if (cache) return cache;
+    ffi.get_window_location(id, buffer_ptr);
+    return oneTickSet(k, buffer[1]);
   }
 
   set y(y: number) {
-    ffi.get_window_location(this.id, buffer_ptr);
-    ffi.move_window(this.id, buffer[0], y);
+    var { id } = this;
+    ffi.get_window_location(id, buffer_ptr);
+    ffi.move_window(id, buffer[0], y);
+    oneTickDelete(`WindowRef.y:${id}`);
+    oneTickDelete(`WindowRef.pos:${id}`);
   }
 
   get width() {
-    ffi.get_window_size(this.id, buffer_ptr);
-    return buffer[0];
+    var { id } = this;
+    var k = `WindowRef.width:${id}`;
+    var cache = oneTickGet(k);
+    if (cache) return cache;
+    ffi.get_window_size(id, buffer_ptr);
+    return oneTickSet(k, buffer[0]);
   }
 
   set width(width: number) {
-    ffi.get_window_size(this.id, buffer_ptr);
-    ffi.set_window_size(this.id, width, buffer[1], 0);
+    var { id } = this;
+    ffi.get_window_size(id, buffer_ptr);
+    ffi.set_window_size(id, width, buffer[1], 0);
+    oneTickDelete(`WindowRef.width:${id}`);
+    oneTickDelete(`WindowRef.size:${id}`);
   }
 
   get height() {
-    ffi.get_window_size(this.id, buffer_ptr);
-    return buffer[1];
+    var { id } = this;
+    var k = `WindowRef.height:${id}`;
+    var cache = oneTickGet(k);
+    if (cache) return cache;
+    ffi.get_window_size(id, buffer_ptr);
+    return oneTickSet(k, buffer[1]);
   }
 
   set height(height: number) {
-    ffi.get_window_size(this.id, buffer_ptr);
-    ffi.set_window_size(this.id, buffer[0], height, 0);
+    var { id } = this;
+    ffi.get_window_size(id, buffer_ptr);
+    ffi.set_window_size(id, buffer[0], height, 0);
+    oneTickDelete(`WindowRef.height:${id}`);
+    oneTickDelete(`WindowRef.size:${id}`);
   }
 
   kill() {
