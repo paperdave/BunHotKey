@@ -46,11 +46,7 @@ kb2.macro("q", () => {
 
 BunHotKey is developed in Zig and TypeScript
 
-After cloning and running `bun install`, you can use Zig to build the library and bindings.
-
-```sh
-zig build && zig-out/bin/bhk-binding-generator
-```
+After cloning and running `bun install`, you can use `zig build` to build the zig library.
 
 This generates `src/lib/index.ts` which is a generated file containing bindings to exported Zig functions. It exports `ffi` which is used throughout the project to call into Zig code.
 

@@ -24,7 +24,8 @@ pub fn build(b: *std.Build) void {
     });
     bindingGenerator.linkSystemLibrary("X11");
     bindingGenerator.linkSystemLibrary("xdo");
-    b.installArtifact(bindingGenerator);
+    const run = b.addRunArtifact(bindingGenerator);
+    b.default_step.dependOn(&run.step);
 
     // TESTS
     // const main_tests = b.addTest(.{
