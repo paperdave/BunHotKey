@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ProcessRef } from "./ProcessRef";
 import { OneTickCache, oneTickDelete, oneTickGet, oneTickSet } from "./cache";
 import { ffi } from "./lib";

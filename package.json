@@ -1,15 +1,24 @@
 {
   "name": "bhk",
-  "module": "index.ts",
+  "description": "Linux desktop automation tool",
+  "keywords": [
+    "bun",
+    "macro",
+    "automation",
+    "x11",
+    "ffi"
+  ],
   "type": "module",
+  "version": "0.0.1",
+  "author": "Dave Caruso <me@paperdave.net>",
+  "dependencies": {
+    "@paperdave/utils": "^1.6.1"
+  },
   "devDependencies": {
-    "bun-types": "canary"
+    "bun-types": "canary",
+    "dts-bundle-generator": "^8.0.1"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
-  },
-  "dependencies": {
-    "@paperdave/utils": "^1.6.1",
-    "esbuild": "^0.17.18"
   }
 }

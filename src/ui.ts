@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { oneTickFetch } from "./cache";
 import { ffi } from "./lib";
 import { buffer, buffer_ptr } from "./shared";

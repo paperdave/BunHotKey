@@ -1,6 +1,6 @@
 # BunHotKey
 
-**Current Status**: Experimenting. Right now everything besides `src/xkeygrab.ts` breaks due to broken c build.
+**Current Status**: Experimenting.
 
 A linux desktop automation tool providing programmable macros using Bun, a fast JavaScript runtime. It exposes an API to define macro keys, as well as many functions to interact with your system and the various applications I use.
 
@@ -41,3 +41,19 @@ kb2.macro("q", () => {
   }
 });
 ```
+
+## Development
+
+BunHotKey is developed in Zig and TypeScript
+
+After cloning and running `bun install`, you can use Zig to build the library and bindings.
+
+```sh
+zig build && zig-out/bin/bhk-binding-generator
+```
+
+This generates `src/lib/index.ts` which is a generated file containing bindings to exported Zig functions. It exports `ffi` which is used throughout the project to call into Zig code.
+
+I have `bhk` aliased to `./src` so examples should just work.
+
+To build the bundled JS package, run `bun release.ts`.

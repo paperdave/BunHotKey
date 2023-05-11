@@ -1,4 +1,4 @@
-export enum EventDeviceType {
+export enum EventDeviceEventType {
   SYN = 0x00, // Syncronization
   KEY = 0x01, // Keypress/release/etc
   REL = 0x02, // Relative movement, mice, etc, etc

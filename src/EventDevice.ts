@@ -1,9 +1,8 @@
 import { FFIType, JSCallback, Pointer } from "bun:ffi";
 import { ffi } from "./lib";
 import { encodeText } from "./shared";
-import { Timer } from "@paperdave/utils";
 import EventEmitter from "events";
-import { EventDeviceType, Key } from "./input-enum";
+import { EventDeviceEventType, Key } from "./input-enum";
 import { Ref } from "./ref";
 import { getInputDevices } from "./device-reader";
 
@@ -71,7 +70,7 @@ export class EventDevice {
         threadsafe: true,
       }
     );
-    this.#id = ffi.jsevdev_init(
+    this.#id = ffi.EventDevice.init(
       encodeText(device) as any,
       !!opts.grab,
       this.#cb.ptr!
@@ -92,18 +91,18 @@ export class EventDevice {
 
   #onData(type: number, code: number, value: number) {
     switch (type) {
-      case EventDeviceType.KEY:
+      case EventDeviceEventType.KEY:
         this.#ee.emit("key", { code, type: KeyPressType[value] });
         break;
 
       default:
-        console.error("unhandled evdev:", { type, code, value });
+        console.debug("unhandled evdev:", { type, code, value });
         break;
     }
   }
 
   dispose() {
-    ffi.jsevdev_dispose(this.#id);
+    ffi.EventDevice.deinit(this.#id);
     this.#cb.close();
     this.#ref.unref();
   }

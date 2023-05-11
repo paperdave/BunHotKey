@@ -38,6 +38,6 @@ export class ProcessRef {
   }
 
   kill() {
-    return ffi.kill(this.pid, 9);
+    return ffi.c.kill(this.pid, 9);
   }
 }

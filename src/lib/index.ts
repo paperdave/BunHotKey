@@ -1,14 +1,10 @@
-// generated with codegen.ts, run `make` to rebuild
+// GENERATED FILE
 import { FFIType, dlopen, suffix } from "bun:ffi";
 import path from "path";
 
-type Libraries = Partial<
-  Record<Platform, Partial<Record<Architecture, string>>>
->;
-
 let libPath: string;
-if (process.env.BHK_PRODUCTION) {
-  const libraries: Libraries = {
+if(process.env.BHK_PRODUCTION) {
+  const libraries: any = {
     linux: {
       x64: "bhk.linux-x86_64.so",
     },
@@ -19,159 +15,135 @@ if (process.env.BHK_PRODUCTION) {
   }
   const library = platform[process.arch];
   if (!library) {
-    throw new Error(
-      `Unsupported architecture: ${process.arch} on ${process.platform}`
-    );
+    throw new Error(`Unsupported architecture: ${process.arch} on ${process.platform}`);
   }
   libPath = path.join(import.meta.dir, library);
 } else {
-  libPath = path.join(import.meta.dir, `../../zig-out/bhk.${suffix}`);
+  libPath = path.join(import.meta.dir, `../../zig-out/lib/libbhk.${suffix}`);
 }
 
-const library = dlopen(libPath, {
-  init: {},
-  deinit: {},
-  jsevdev_thread: {
-    args: [FFIType.pointer],
-    returns: FFIType.pointer,
+const { symbols, close } = dlopen(libPath, {
+  global__init: {
+    args: [],
+    returns: FFIType.void /* void */,
   },
-  jsevdev_init: {
-    args: [FFIType.pointer, FFIType.bool, FFIType.pointer],
-    returns: FFIType.pointer,
+  global__deinit: {
+    args: [],
+    returns: FFIType.void /* void */,
   },
-  jsevdev_dispose: {
-    args: [FFIType.pointer],
+  EventDevice__init: {
+    args: [
+      FFIType.cstring /* [*:0]const u8 */,
+      FFIType.bool /* bool */,
+      FFIType.ptr /* *fn(u16, u16, i32) void */,
+    ],
+    returns: FFIType.ptr /* ?*EventDevice.EventDevice */,
   },
-  jskeygrab_thread: {
-    args: [FFIType.pointer],
-    returns: FFIType.pointer,
+  EventDevice__deinit: {
+    args: [
+      FFIType.ptr /* ?*EventDevice.EventDevice */,
+    ],
+    returns: FFIType.void /* void */,
   },
-  jskeygrab_set_cb: {
-    args: [FFIType.pointer],
+  XKeyGrab__setCallback: {
+    args: [
+      FFIType.ptr /* *fn(i32, c_ulong, c_ulong, i32, i32, c_ulong, u32, u32) void */,
+    ],
+    returns: FFIType.void /* void */,
   },
-  jskeygrab_add: {
-    args: [FFIType.i32, FFIType.u32, FFIType.u64_fast],
-    returns: FFIType.pointer,
+  XKeyGrab__add: {
+    args: [
+      FFIType.i32 /* i32 */,
+      FFIType.u32 /* u32 */,
+      FFIType.u64_fast /* c_ulong */,
+    ],
+    returns: FFIType.ptr /* ?*XKeyGrab.KeyGrab */,
   },
-  jskeygrab_dispose: {
-    args: [FFIType.pointer],
+  XKeyGrab__dispose: {
+    args: [
+      FFIType.ptr /* *XKeyGrab.KeyGrab */,
+    ],
+    returns: FFIType.void /* void */,
   },
-  get_active_window: {
-    returns: FFIType.i32,
+  xdo__move_mouse: {
+    args: [
+      FFIType.i32 /* i32 */,
+      FFIType.i32 /* i32 */,
+      FFIType.i32 /* i32 */,
+    ],
+    returns: FFIType.void /* void */,
   },
-  move_mouse: {
-    args: [FFIType.i32, FFIType.i32, FFIType.i32],
+  xdo__get_active_window: {
+    args: [],
+    returns: FFIType.u64_fast /* c_ulong */,
   },
-  move_mouse_relative_to_window: {
-    args: [FFIType.u64_fast, FFIType.i32, FFIType.i32],
+  xdo__move_mouse_relative_to_window: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+      FFIType.i32 /* i32 */,
+      FFIType.i32 /* i32 */,
+    ],
+    returns: FFIType.void /* void */,
   },
-  move_mouse_relative: {
-    args: [FFIType.i32, FFIType.i32],
+  xdo__move_mouse_relative: {
+    args: [
+      FFIType.i32 /* i32 */,
+      FFIType.i32 /* i32 */,
+    ],
+    returns: FFIType.void /* void */,
   },
-  mouse_down: {
-    args: [FFIType.u64_fast, FFIType.i32],
+  xdo__mouse_down: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+      FFIType.i32 /* i32 */,
+    ],
+    returns: FFIType.void /* void */,
   },
-  mouse_up: {
-    args: [FFIType.u64_fast, FFIType.i32],
+  xdo__mouse_up: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+      FFIType.i32 /* i32 */,
+    ],
+    returns: FFIType.void /* void */,
   },
-  get_mouse_location: {
-    args: [FFIType.pointer],
-  },
-  get_window_at_mouse: {
-    returns: FFIType.u64_fast,
-  },
-  wait_for_mouse_move_from: {
-    args: [FFIType.i32, FFIType.i32],
-  },
-  wait_for_mouse_move_to: {
-    args: [FFIType.i32, FFIType.i32],
-  },
-  click_window: {
-    args: [FFIType.u64_fast, FFIType.i32],
-  },
-  click_window_multiple: {
-    args: [FFIType.u64_fast, FFIType.i32, FFIType.i32, FFIType.u32],
-  },
-  enter_text_window: {
-    args: [FFIType.u64_fast, FFIType.cstring, FFIType.u32],
-  },
-  send_keysequence_window: {
-    args: [FFIType.u64_fast, FFIType.cstring, FFIType.u32],
-  },
-  send_keysequence_window_up: {
-    args: [FFIType.u64_fast, FFIType.cstring, FFIType.u32],
-  },
-  send_keysequence_window_down: {
-    args: [FFIType.u64_fast, FFIType.cstring, FFIType.u32],
-  },
-  move_window: {
-    args: [FFIType.u64_fast, FFIType.i32, FFIType.i32],
-  },
-  set_window_size: {
-    args: [FFIType.u64_fast, FFIType.i32, FFIType.i32, FFIType.i32],
-  },
-  set_window_property: {
-    args: [FFIType.u64_fast, FFIType.cstring, FFIType.cstring],
-  },
-  set_window_class: {
-    args: [FFIType.u64_fast, FFIType.cstring, FFIType.cstring],
-  },
-  set_window_urgency: {
-    args: [FFIType.u64_fast, FFIType.i32],
-  },
-  focus_window: {
-    args: [FFIType.u64_fast],
-  },
-  raise_window: {
-    args: [FFIType.u64_fast],
-  },
-  activate_window: {
-    args: [FFIType.u64_fast],
-  },
-  get_focused_window: {
-    returns: FFIType.u64_fast,
-  },
-  wait_for_window_focus: {
-    args: [FFIType.u64_fast],
-  },
-  get_window_pid: {
-    args: [FFIType.u64_fast],
-    returns: FFIType.i32,
-  },
-  get_window_location: {
-    args: [FFIType.u64_fast, FFIType.pointer],
-  },
-  get_window_size: {
-    args: [FFIType.u64_fast, FFIType.pointer],
-  },
-  wait_select_window_with_click: {
-    returns: FFIType.u64_fast,
-  },
-  get_input_state: {
-    returns: FFIType.u32,
-  },
-  close_window: {
-    args: [FFIType.u64_fast],
-  },
-  kill_window: {
-    args: [FFIType.u64_fast],
-  },
-  quit_window: {
-    args: [FFIType.u64_fast],
-  },
-  get_window_name: {
-    args: [FFIType.u64_fast],
-    returns: FFIType.cstring,
+  xdo__get_mouse_location: {
+    args: [
+      FFIType.ptr /* [*]i32 */,
+    ],
+    returns: FFIType.void /* void */,
   },
   kill: {
     args: [FFIType.u32, FFIType.u32],
   },
 });
-if (!library.symbols) {
-  console.error(`BunHotKey library path: ${libPath}`);
-  throw library;
-}
 
-library.symbols.init();
+symbols.global__init();
 
-export const ffi = library.symbols;
+export const ffi = {
+  global: {
+    init: symbols.global__init,
+    deinit: symbols.global__deinit,
+  },
+  EventDevice: {
+    init: symbols.EventDevice__init,
+    deinit: symbols.EventDevice__deinit,
+  },
+  XKeyGrab: {
+    setCallback: symbols.XKeyGrab__setCallback,
+    add: symbols.XKeyGrab__add,
+    dispose: symbols.XKeyGrab__dispose,
+  },
+  xdo: {
+    move_mouse: symbols.xdo__move_mouse,
+    get_active_window: symbols.xdo__get_active_window,
+    move_mouse_relative_to_window: symbols.xdo__move_mouse_relative_to_window,
+    move_mouse_relative: symbols.xdo__move_mouse_relative,
+    mouse_down: symbols.xdo__mouse_down,
+    mouse_up: symbols.xdo__mouse_up,
+    get_mouse_location: symbols.xdo__get_mouse_location,
+  },
+  close,
+  c: {
+    kill: symbols.kill,
+  }
+};

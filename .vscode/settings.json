@@ -11,6 +11,7 @@
     "chrono": "cpp",
     "xdo.h": "c",
     "init.h": "c",
-    "input.h": "c"
+    "input.h": "c",
+    "jsevdev.h": "c"
   }
 }

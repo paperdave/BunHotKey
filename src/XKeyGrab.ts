@@ -44,7 +44,7 @@ const callback = new JSCallback(
             return new WindowRef(subwindow);
           },
           pos: { x, y },
-          time,
+          // time,
         });
       }
     }
@@ -64,7 +64,7 @@ const callback = new JSCallback(
   }
 );
 
-ffi.jskeygrab_set_cb(callback.ptr!);
+ffi.XKeyGrab.setCallback(callback.ptr!);
 
 const map = new Map<WindowID, Map<number, XKeyGrab>>();
 
@@ -97,7 +97,7 @@ class XKeyGrab {
       }
     }
 
-    this.#ptr = ffi.jskeygrab_add(key, modifiers, window);
+    this.#ptr = ffi.XKeyGrab.add(key, modifiers, window);
     if (!this.#ptr) {
       throw new Error("Failed to create XKeyGrab");
     }
@@ -118,7 +118,14 @@ class XKeyGrab {
         map.delete(this.window);
       }
     }
-    ffi.jskeygrab_dispose(this.#ptr);
+    ffi.XKeyGrab.dispose(this.#ptr);
     this.#ref.unref();
   }
 }
+
+const kg = new XKeyGrab(
+  { key: 67, modifiers: 1 << 6 },
+  (event: KeyGrabEvent) => {
+    console.log(event);
+  }
+);
