@@ -28,7 +28,7 @@ kb.macro("super + f1", () => {
 
 // hook into external devices, for example adding an exclusive macro keyboard
 // (linux version of Taren's 2nd keyboard stuff)
-const kb2 = new Keyboard({ vendor: 0x1b1c, product: 0x1b13 });
+const kb2 = new Device({ vendor: 0x1b1c, product: 0x1b13 });
 kb2.macro("q", () => {
   // helper to focus or launch an application
   ui.focusOrLaunch("discord");
@@ -50,76 +50,86 @@ Any and all of this may be changed at any time.
 
 ### Desktop Automation API
 
-BunHotKey exposes live bindings to your UI and window state.
+BunHotKey exposes live bindings to your UI and window state. Unchecked things are not implemented.
 
 - `ui`:
-  - `activeWindow` -> `WindowRef`
-  - `hoveredWindow` -> `WindowRef`
-  - `mouse`
-    - `pos` -> `{ x: number, y: number }`
-    - `moveTo(x: number, y: number)`
-    - `moveBy(x: number, y: number)`
-    - `click(button: number)`
-    - `down(button: number)`
-    - `up(button: number)`
-  - `findWindow(query: FindWindowOptions)` -> `?WindowRef`
+  - [X] `activeWindow` -> `WindowRef`
+  - [X] `hoveredWindow` -> `WindowRef`
+  - [ ] `findWindow(query: FindWindowOptions)` -> `?WindowRef`
+  - [ ] `launch(command: string[])` -> `Promise<WindowRef>`
+  - [ ] `focusOrLaunch(command: string[])` -> `Promise<WindowRef>`
+  - [X] `mouse`
+    - [X] `pos` -> `{ x: number, y: number }`
+    - [X] `moveTo(x: number, y: number)`
+    - [X] `moveBy(x: number, y: number)`
+    - [X] `click(button: number)`
+    - [X] `down(button: number)`
+    - [X] `up(button: number)`
 - `i3`:
-  - `async exec(command: string)`
-  - `workspaces` -> `WorkspaceRef[]`
-  - `workspace(name: string)` -> `WorkspaceRef`
-  - `on(event, cb)`
-    - `workspace`
-    - `output`
-    - `mode`
-    - `window`
-    - `barconfig_update`
-    - `binding`
-    - `shutdown`
-    - `tick`
+  - [X] `async exec(command: string)`
+  - [X] `workspaces` -> `WorkspaceRef[]`
+  - [X] `workspace(name: string)` -> `WorkspaceRef`
+  - [X] `on(event, cb)`
+    - [ ] `workspace`
+    - [ ] `output`
+    - [ ] `mode`
+    - [ ] `window`
+    - [ ] `barconfig_update`
+    - [ ] `binding`
+    - [ ] `shutdown`
+    - [ ] `tick`
 - `blender`
+  - [ ] `async execString(python: string)`
+  - [ ] `async execFile(path: string)`
 
 There are a number of "ref" classes which consist of an `id` and expose live bindings to them.
 
 - `WindowRef` (this is designed to be cross-platform)
   - Properties
-    - `id` -> `WindowID`
-    - `name` -> `string`
-    - `size` -> `{ width: number, height: number }`
-    - `pos` -> `{ x: number, y: number }`
-    - `x` -> `number`
-    - `y` -> `number`
-    - `width` -> `number`
-    - `height` -> `number`
-    - `pid` -> `number`
-    - `proc` -> `ProcessRef`
+    - [X] `id` -> `WindowID`
+    - [X] `name` -> `string`
+    - [X] `pid` -> `number`
+    - [X] `proc` -> `ProcessRef`
+  - Bindings
+    - [X] `size` -> `{ width: number, height: number }`
+    - [X] `pos` -> `{ x: number, y: number }`
+    - [X] `x` -> `number`
+    - [X] `y` -> `number`
+    - [X] `width` -> `number`
+    - [X] `height` -> `number`
   - Methods
-    - `activate()`
-    - `click(button: number)`
-    - `clickMultiple(button: number, times: number, delay = 1)`
-    - `close()`
-    - `focus()`
-    - `kill()`
-    - `raise()`
-    - `type(text: string, delay = 0)`
+    - [X] `activate()`
+    - [X] `click(button: number)`
+    - [X] `clickMultiple(button: number, times: number, delay = 1)`
+    - [X] `close()`
+    - [X] `focus()`
+    - [X] `kill()`
+    - [X] `raise()`
+    - [X] `type(text: string, delay = 0)`
+    - [ ] `moveMouseRelativeTo(x: number, y: number)`
 - `ProcessRef`
   - Properties
-    - `name`
-    - `cmdline`
-    - `cwd`
-    - `exe`
+    - [X] `name` -> `string`
+    - [X] `cmdline` -> `string`
+    - [X] `cwd` -> `string`
+    - [X] `exe` -> `string`
+    - [ ] `windows` -> `WindowRef[]`
   - Methods
-    - `kill(signal: number)` (defaults to SIGTERM)
+    - [X] `kill(signal: number)` (defaults to SIGTERM)
 - `I3WorkspaceRef` (create with `i3.workspace(name)`)
   - Properties
-    - `name`
-    - `num`
-    - `focused`
-    - `visible`
-    - `rect`
-    - `output`
-    - `urgent`
+    - [X] `name` -> `string`
+    - [X] `num` -> `number`
+    - [X] `rect` -> `{ x: number, y: number, width: number, height: number }`
+    - [X] `urgent` -> `boolean`
+    - [ ] `windows` -> `WindowRef[]`
+  - Bindings
+    - [X] `focused` -> `boolean`
+    - [X] `visible` -> `boolean`
+    - [X] `output` -> `string`
   - Methods
-    - `focus()`
+    - [X] `focus()`
+    - [ ] `moveToOutput(output: string)`
 
 ### `Device`
 
@@ -137,6 +147,29 @@ device.on("key", (key) => {
   console.log(key);
 });
 ```
+
+- `Device`
+  - [X] `new Device(opts)` public constructor
+  - Properties
+    - [ ] `type` -> `string`
+  - Bindings
+    - [ ] `grabbed` -> `boolean`
+  - Methods
+    - [ ] `macro(combo: string, cb: Function)`
+  - Events
+    - [X] `key`
+    - [ ] `mousemove`
+    - [ ] `mousedown`
+    - [ ] `mouseup`
+    - [ ] `mousewheel`
+- `SpeedEditor` (specific extension for Davinci Resolve Speed Editor)
+  - [ ] `new SpeedEditor(opts)` public constructor
+  - Methods
+    - [ ] `macro(combo: string, cb: Function)`
+    - [ ] `setLED(led: number, state: boolean)`
+  - Events
+    - [ ] `key`
+    - [ ] `wheel`
 
 ### XKeyGrab
 
