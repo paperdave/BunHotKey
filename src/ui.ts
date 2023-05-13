@@ -82,10 +82,10 @@ function findWindowMultiple({
     const win = ffi.xdo.searchWindowSingle(
       mask,
       filter === "OR" ? 1 : 0,
-      _class ? encodeText(_class) : null_ptr,
-      className ? encodeText(className) : null_ptr,
-      name ? encodeText(name) : null_ptr,
-      role ? encodeText(role) : null_ptr,
+      _class ? encodeText(_class) : (null_ptr as any),
+      className ? encodeText(className) : (null_ptr as any),
+      name ? encodeText(name) : (null_ptr as any),
+      role ? encodeText(role) : (null_ptr as any),
       maxDepth ?? 1,
       pid ?? 0,
       !!onlyVisible

@@ -122,10 +122,3 @@ export class XKeyGrab {
     this.#ref.unref();
   }
 }
-
-const kg = new XKeyGrab(
-  { key: 67, modifiers: 1 << 6 },
-  (event: KeyGrabEvent) => {
-    console.log(event);
-  }
-);
