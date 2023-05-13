@@ -68,7 +68,7 @@ ffi.XKeyGrab.setCallback(callback.ptr!);
 
 const map = new Map<WindowID, Map<number, XKeyGrab>>();
 
-class XKeyGrab {
+export class XKeyGrab {
   #hash: number;
   #ptr: Pointer;
   #ref: Ref;

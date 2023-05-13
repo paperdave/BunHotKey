@@ -1,10 +1,10 @@
 # BunHotKey
 
-**Current Status**: Experimenting.
+**Current Status**: Not usable, available for public experimentation.
 
 A linux desktop automation tool providing programmable macros using Bun, a fast JavaScript runtime. It exposes an API to define macro keys, as well as many functions to interact with your system and the various applications I use.
 
-> The demo below is not fully implemented yet
+> The demo below is not implemented and is more of a sketch of what I want to achieve
 
 ```ts
 import { kb, ui, Keyboard } from "bhk";
@@ -42,14 +42,60 @@ kb2.macro("q", () => {
 });
 ```
 
+## Reference
+
+Any and all of this may be changed at any time.
+
+### Desktop Automation API
+
+BunHotKey exposes live bindings to your UI and window state.
+
+- `ui`:
+  - `activeWindow` -> `WindowRef`
+  - `hoveredWindow` -> `WindowRef`
+  - `mouse`
+    - `pos` -> `{ x: number, y: number }`
+    - `moveTo(x: number, y: number)`
+    - `moveBy(x: number, y: number)`
+    - `click(button: number)`
+    - `down(button: number)`
+    - `up(button: number)`
+  - `findWindow(query: FindWindowOptions)` -> `?WindowRef`
+- `i3`:
+  - `async exec(command: string)`
+  - `workspaces` -> `WorkspaceRef[]`
+  - `workspace(name: string)` -> `WorkspaceRef`
+  - `on(event, cb)`
+    - `workspace`
+    - `output`
+    - `mode`
+    - `window`
+    - `barconfig_update`
+    - `binding`
+    - `shutdown`
+    - `tick`
+
+### `Device`
+
+WIP, JS binding for reading to event devices (`/dev/input/event*`)
+
+```ts
+import { Device } from "bhk";
+
+const device = new Device({
+  vendor: 0x1b1c,
+  product: 0x1b3d,
+  grab: true,
+});
+device.on("key", (key) => {
+  console.log(key);
+});
+```
+
+### XKeyGrab
+
+WIP, JS binding for X11's `XGrabKey`
+
 ## Development
 
-BunHotKey is developed in Zig and TypeScript
-
-After cloning and running `bun install`, you can use `zig build` to build the zig library.
-
-This generates `src/lib/index.ts` which is a generated file containing bindings to exported Zig functions. It exports `ffi` which is used throughout the project to call into Zig code.
-
-I have `bhk` aliased to `./src` so examples should just work.
-
-To build the bundled JS package, run `bun release.ts`.
+BunHotKey is developed in Zig and TypeScript. Run `bun install` to install dependencies and build the library. Zig is installed through npm.

@@ -136,12 +136,12 @@ export const ui = {
     moveTo(x: number, y: number, screen = 0) {
       ffi.xdo.moveMouse(x, y, screen);
     },
-    moveRelative(x: number, y: number) {
+    moveBy(x: number, y: number) {
       ffi.xdo.moveMouseRelative(x, y);
     },
-    moveRelativeToWindow(window: WindowRef, x: number, y: number) {
-      ffi.xdo.moveMouseRelativeToWindow(window.id, x, y);
-    },
+    // moveRelativeToWindow(window: WindowRef, x: number, y: number) {
+    //   ffi.xdo.moveMouseRelativeToWindow(window.id, x, y);
+    // },
     down(button: number) {
       ffi.xdo.mouseDown(0, button);
     },

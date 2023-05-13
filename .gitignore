@@ -1,6 +1,6 @@
 node_modules
 *.so
 dist
-
+src/lib/index.ts
 zig-cache
 zig-out

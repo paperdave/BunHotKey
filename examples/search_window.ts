@@ -1,5 +1,6 @@
 import { ui } from "bhk";
 
+// this is too buggy to be useful
 const windows = ui.filterWindows({
   name: "spotify",
 });

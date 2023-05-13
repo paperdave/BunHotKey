@@ -12,7 +12,7 @@ enum KeyPressType {
   repeat = 2,
 }
 
-type EventDeviceOpts = (
+type DeviceOpts = (
   | {
       device: string;
     }
@@ -27,18 +27,17 @@ type EventDeviceOpts = (
 /**
  * Class representing an event device, like a keyboard. Pass grab=true to grab the device
  */
-export class EventDevice {
+export class Device {
   #id: Pointer;
   #cb: JSCallback;
   #ref: Ref;
   #ee = new EventEmitter();
 
-  constructor(opts: EventDeviceOpts) {
+  constructor(opts: DeviceOpts) {
     let device;
 
     if ("product" in opts && "vendor" in opts) {
       const dev = getInputDevices().find((dev) => {
-        console.log(dev.info);
         return (
           Number("0x" + dev.info.vendor) === opts.vendor &&
           Number("0x" + dev.info.product) === opts.product

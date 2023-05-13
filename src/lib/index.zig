@@ -5,6 +5,7 @@
 //
 // Just add any new files to this `modules` array:
 const global = @import("./global.zig");
+
 const modules = .{
     .{ .name = "global", .val = struct {
         pub const init = global.init;

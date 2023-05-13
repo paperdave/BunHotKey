@@ -15,4 +15,4 @@ setInterval(() => {
 setTimeout(() => {
   ui.mouse.pos = center;
   process.exit(0);
-}, 10000);
+}, 2500);

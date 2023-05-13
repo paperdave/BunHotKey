@@ -1,24 +1,19 @@
 {
   "name": "bhk",
   "description": "Linux desktop automation tool",
-  "keywords": [
-    "bun",
-    "macro",
-    "automation",
-    "x11",
-    "ffi"
-  ],
-  "type": "module",
   "version": "0.0.1",
   "author": "Dave Caruso <me@paperdave.net>",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "zig build"
+  },
   "dependencies": {
     "@paperdave/utils": "^1.6.1"
   },
   "devDependencies": {
+    "@oven/zig": "^0.11.0-dev.2563",
     "bun-types": "0.6.0-canary.20230512T025912",
     "dts-bundle-generator": "^8.0.1"
   },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  }
+  "type": "module"
 }

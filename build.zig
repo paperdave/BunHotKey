@@ -10,22 +10,33 @@ pub fn build(b: *std.Build) void {
         .root_source_file = .{ .path = "src/lib/index.zig" },
         .target = target,
         .optimize = optimize,
-        .link_libc = true,
     });
     lib.linkSystemLibrary("X11");
     lib.linkSystemLibrary("xdo");
+    lib.linkLibC();
     b.installArtifact(lib);
 
     const bindingGenerator = b.addExecutable(.{
         .name = "bhk-binding-generator",
         .root_source_file = .{ .path = "src/lib/index.zig" },
         .optimize = .Debug,
-        .link_libc = true,
     });
     bindingGenerator.linkSystemLibrary("X11");
     bindingGenerator.linkSystemLibrary("xdo");
+    bindingGenerator.linkLibC();
     const run = b.addRunArtifact(bindingGenerator);
     b.default_step.dependOn(&run.step);
+
+    // const demo = b.addExecutable(.{
+    //     .name = "demo",
+    //     .root_source_file = .{ .path = "src/lib/window-search.zig" },
+    //     .target = target,
+    //     .optimize = optimize,
+    //     .link_libc = true,
+    // });
+    // demo.linkSystemLibrary("X11");
+    // demo.linkSystemLibrary("xdo");
+    // b.installArtifact(demo);
 
     // TESTS
     // const main_tests = b.addTest(.{

@@ -197,6 +197,18 @@ export class WindowRef {
     ffi.xdo.clickWindow(this.id, button);
   }
 
+  focus() {
+    ffi.xdo.focusWindow(this.id);
+  }
+
+  activate() {
+    ffi.xdo.activateWindow(this.id);
+  }
+
+  raise() {
+    ffi.xdo.raiseWindow(this.id);
+  }
+
   clickMultiple(button: number, times: number, delay = 1) {
     ffi.xdo.clickWindowMultiple(this.id, button, times, delay * 1000);
   }
