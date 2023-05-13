@@ -65,7 +65,7 @@ const { symbols, close } = dlopen(libPath, {
     ],
     returns: FFIType.void /* void */,
   },
-  xdo__move_mouse: {
+  xdo__moveMouse: {
     args: [
       FFIType.i32 /* i32 */,
       FFIType.i32 /* i32 */,
@@ -73,11 +73,11 @@ const { symbols, close } = dlopen(libPath, {
     ],
     returns: FFIType.void /* void */,
   },
-  xdo__get_active_window: {
+  xdo__getActiveWindow: {
     args: [],
     returns: FFIType.u64_fast /* c_ulong */,
   },
-  xdo__move_mouse_relative_to_window: {
+  xdo__moveMouseRelativeToWindow: {
     args: [
       FFIType.u64_fast /* c_ulong */,
       FFIType.i32 /* i32 */,
@@ -85,32 +85,235 @@ const { symbols, close } = dlopen(libPath, {
     ],
     returns: FFIType.void /* void */,
   },
-  xdo__move_mouse_relative: {
+  xdo__moveMouseRelative: {
     args: [
       FFIType.i32 /* i32 */,
       FFIType.i32 /* i32 */,
     ],
     returns: FFIType.void /* void */,
   },
-  xdo__mouse_down: {
-    args: [
-      FFIType.u64_fast /* c_ulong */,
-      FFIType.i32 /* i32 */,
-    ],
-    returns: FFIType.void /* void */,
-  },
-  xdo__mouse_up: {
+  xdo__mouseDown: {
     args: [
       FFIType.u64_fast /* c_ulong */,
       FFIType.i32 /* i32 */,
     ],
     returns: FFIType.void /* void */,
   },
-  xdo__get_mouse_location: {
+  xdo__mouseUp: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+      FFIType.i32 /* i32 */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__getMouseLocation: {
     args: [
       FFIType.ptr /* [*]i32 */,
     ],
     returns: FFIType.void /* void */,
+  },
+  xdo__getWindowAtMouse: {
+    args: [],
+    returns: FFIType.u64_fast /* c_ulong */,
+  },
+  xdo__getWindowName: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+    ],
+    returns: FFIType.cstring /* [*]const u8 */,
+  },
+  xdo__waitForMouseMoveFrom: {
+    args: [
+      FFIType.i32 /* i32 */,
+      FFIType.i32 /* i32 */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__waitForMouseMoveTo: {
+    args: [
+      FFIType.i32 /* i32 */,
+      FFIType.i32 /* i32 */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__clickWindow: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+      FFIType.i32 /* i32 */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__clickWindowMultiple: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+      FFIType.i32 /* i32 */,
+      FFIType.i32 /* i32 */,
+      FFIType.u32 /* u32 */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__enterTextWindow: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+      FFIType.cstring /* [*]const u8 */,
+      FFIType.u32 /* u32 */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__sendKeysequenceWindow: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+      FFIType.cstring /* [*]const u8 */,
+      FFIType.u32 /* u32 */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__sendKeysequenceWindowDown: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+      FFIType.cstring /* [*]const u8 */,
+      FFIType.u32 /* u32 */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__sendKeysequenceWindowUp: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+      FFIType.cstring /* [*]const u8 */,
+      FFIType.u32 /* u32 */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__moveWindow: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+      FFIType.i32 /* i32 */,
+      FFIType.i32 /* i32 */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__setWindowSize: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+      FFIType.i32 /* i32 */,
+      FFIType.i32 /* i32 */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__setWindowProperty: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+      FFIType.cstring /* [*]const u8 */,
+      FFIType.cstring /* [*]const u8 */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__setWindowClass: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+      FFIType.cstring /* [*]const u8 */,
+      FFIType.cstring /* [*]const u8 */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__setWindowUrgency: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+      FFIType.i32 /* i32 */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__activateWindow: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__focusWindow: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__raiseWindow: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__getFocusedWindow: {
+    args: [],
+    returns: FFIType.u64_fast /* c_ulong */,
+  },
+  xdo__getWindowPID: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+    ],
+    returns: FFIType.i32 /* i32 */,
+  },
+  xdo__getWindowLocation: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+      FFIType.ptr /* [*]i32 */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__getWindowSize: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+      FFIType.ptr /* [*]u32 */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__waitSelectWindowWithClick: {
+    args: [],
+    returns: FFIType.u64_fast /* c_ulong */,
+  },
+  xdo__getInputState: {
+    args: [],
+    returns: FFIType.u32 /* u32 */,
+  },
+  xdo__killWindow: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__closeWindow: {
+    args: [
+      FFIType.u64_fast /* c_ulong */,
+    ],
+    returns: FFIType.void /* void */,
+  },
+  xdo__searchWindowSingle: {
+    args: [
+      FFIType.u32 /* u32 */,
+      FFIType.u32 /* u32 */,
+      FFIType.cstring /* [*c]const u8 */,
+      FFIType.cstring /* [*c]const u8 */,
+      FFIType.cstring /* [*c]const u8 */,
+      FFIType.cstring /* [*c]const u8 */,
+      FFIType.i32 /* i32 */,
+      FFIType.i32 /* i32 */,
+      FFIType.bool /* bool */,
+    ],
+    returns: FFIType.u64_fast /* c_ulong */,
+  },
+  xdo__searchWindowMultiple: {
+    args: [
+      FFIType.u32 /* u32 */,
+      FFIType.u32 /* u32 */,
+      FFIType.cstring /* [*]const u8 */,
+      FFIType.cstring /* [*]const u8 */,
+      FFIType.cstring /* [*]const u8 */,
+      FFIType.cstring /* [*]const u8 */,
+      FFIType.i32 /* i32 */,
+      FFIType.i32 /* i32 */,
+      FFIType.bool /* bool */,
+      FFIType.ptr /* [*]c_ulong */,
+      FFIType.u32 /* u32 */,
+    ],
+    returns: FFIType.u32 /* u32 */,
   },
   kill: {
     args: [FFIType.u32, FFIType.u32],
@@ -134,13 +337,41 @@ export const ffi = {
     dispose: symbols.XKeyGrab__dispose,
   },
   xdo: {
-    move_mouse: symbols.xdo__move_mouse,
-    get_active_window: symbols.xdo__get_active_window,
-    move_mouse_relative_to_window: symbols.xdo__move_mouse_relative_to_window,
-    move_mouse_relative: symbols.xdo__move_mouse_relative,
-    mouse_down: symbols.xdo__mouse_down,
-    mouse_up: symbols.xdo__mouse_up,
-    get_mouse_location: symbols.xdo__get_mouse_location,
+    moveMouse: symbols.xdo__moveMouse,
+    getActiveWindow: symbols.xdo__getActiveWindow,
+    moveMouseRelativeToWindow: symbols.xdo__moveMouseRelativeToWindow,
+    moveMouseRelative: symbols.xdo__moveMouseRelative,
+    mouseDown: symbols.xdo__mouseDown,
+    mouseUp: symbols.xdo__mouseUp,
+    getMouseLocation: symbols.xdo__getMouseLocation,
+    getWindowAtMouse: symbols.xdo__getWindowAtMouse,
+    getWindowName: symbols.xdo__getWindowName,
+    waitForMouseMoveFrom: symbols.xdo__waitForMouseMoveFrom,
+    waitForMouseMoveTo: symbols.xdo__waitForMouseMoveTo,
+    clickWindow: symbols.xdo__clickWindow,
+    clickWindowMultiple: symbols.xdo__clickWindowMultiple,
+    enterTextWindow: symbols.xdo__enterTextWindow,
+    sendKeysequenceWindow: symbols.xdo__sendKeysequenceWindow,
+    sendKeysequenceWindowDown: symbols.xdo__sendKeysequenceWindowDown,
+    sendKeysequenceWindowUp: symbols.xdo__sendKeysequenceWindowUp,
+    moveWindow: symbols.xdo__moveWindow,
+    setWindowSize: symbols.xdo__setWindowSize,
+    setWindowProperty: symbols.xdo__setWindowProperty,
+    setWindowClass: symbols.xdo__setWindowClass,
+    setWindowUrgency: symbols.xdo__setWindowUrgency,
+    activateWindow: symbols.xdo__activateWindow,
+    focusWindow: symbols.xdo__focusWindow,
+    raiseWindow: symbols.xdo__raiseWindow,
+    getFocusedWindow: symbols.xdo__getFocusedWindow,
+    getWindowPID: symbols.xdo__getWindowPID,
+    getWindowLocation: symbols.xdo__getWindowLocation,
+    getWindowSize: symbols.xdo__getWindowSize,
+    waitSelectWindowWithClick: symbols.xdo__waitSelectWindowWithClick,
+    getInputState: symbols.xdo__getInputState,
+    killWindow: symbols.xdo__killWindow,
+    closeWindow: symbols.xdo__closeWindow,
+    searchWindowSingle: symbols.xdo__searchWindowSingle,
+    searchWindowMultiple: symbols.xdo__searchWindowMultiple,
   },
   close,
   c: {

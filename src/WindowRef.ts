@@ -1,6 +1,5 @@
-// @ts-nocheck
 import { ProcessRef } from "./ProcessRef";
-import { OneTickCache, oneTickDelete, oneTickGet, oneTickSet } from "./cache";
+import { oneTickDelete, oneTickGet, oneTickSet } from "./cache";
 import { ffi } from "./lib";
 import { buffer, buffer_ptr, encodeText } from "./shared";
 
@@ -23,11 +22,11 @@ class WindowPos {
   }
   set x(x: number) {
     this.#x = x;
-    ffi.move_window(this.#id, this.#x, this.#y);
+    ffi.xdo.moveWindow(this.#id, this.#x, this.#y);
   }
   set y(y: number) {
     this.#y = y;
-    ffi.move_window(this.#id, this.#x, this.#y);
+    ffi.xdo.moveWindow(this.#id, this.#x, this.#y);
   }
 }
 
@@ -48,11 +47,11 @@ class WindowSize {
   }
   set width(x: number) {
     this.#w = x;
-    ffi.move_window(this.#id, this.#w, this.#h);
+    ffi.xdo.moveWindow(this.#id, this.#w, this.#h);
   }
   set height(y: number) {
     this.#h = y;
-    ffi.move_window(this.#id, this.#w, this.#h);
+    ffi.xdo.moveWindow(this.#id, this.#w, this.#h);
   }
 }
 
@@ -61,7 +60,7 @@ export class WindowRef {
 
   #pid: number | null = null;
   get pid() {
-    return this.#pid ?? (this.#pid = ffi.get_window_pid(this.id));
+    return this.#pid ?? (this.#pid = ffi.xdo.getWindowPID(this.id));
   }
 
   #proc: ProcessRef | null | undefined = undefined;
@@ -77,7 +76,7 @@ export class WindowRef {
     var k = `WindowRef.name:${id}`;
     var cache = oneTickGet(k);
     if (cache) return cache;
-    return oneTickSet(k, "" + ffi.get_window_name(id));
+    return oneTickSet(k, "" + ffi.xdo.getWindowName(id));
   }
 
   get pos(): WindowPos {
@@ -85,13 +84,13 @@ export class WindowRef {
     var k = `WindowRef.pos:${id}`;
     var cache = oneTickGet(k);
     if (cache) return cache;
-    ffi.get_window_location(id, buffer_ptr);
+    ffi.xdo.getWindowLocation(id, buffer_ptr);
     return oneTickSet(k, new WindowPos(id, buffer[0], buffer[1]));
   }
 
   set pos(pos: { x?: number; y?: number; screen?: number }) {
     const { id } = this;
-    ffi.move_window(id, pos.x ?? this.pos.x, pos.y ?? this.pos.y);
+    ffi.xdo.moveWindow(id, pos.x ?? this.pos.x, pos.y ?? this.pos.y);
     oneTickDelete(`WindowRef.pos:${id}`);
     oneTickDelete(`WindowRef.x:${id}`);
     oneTickDelete(`WindowRef.y:${id}`);
@@ -102,17 +101,16 @@ export class WindowRef {
     var k = `WindowRef.size:${id}`;
     var cache = oneTickGet(k);
     if (cache) return cache;
-    ffi.get_window_size(id, buffer_ptr);
+    ffi.xdo.getWindowSize(id, buffer_ptr);
     return oneTickSet(k, new WindowSize(id, buffer[0], buffer[1]));
   }
 
   set size(size: { width?: number; height?: number }) {
     const { id } = this;
-    ffi.set_window_size(
+    ffi.xdo.setWindowSize(
       id,
       size.width ?? this.size.width,
-      size.height ?? this.size.height,
-      0
+      size.height ?? this.size.height
     );
     oneTickDelete(`WindowRef.pos:${id}`);
     oneTickDelete(`WindowRef.width:${id}`);
@@ -124,14 +122,14 @@ export class WindowRef {
     var k = `WindowRef.x:${id}`;
     var cache = oneTickGet(k);
     if (cache) return cache;
-    ffi.get_window_location(this.id, buffer_ptr);
+    ffi.xdo.getWindowLocation(this.id, buffer_ptr);
     return oneTickSet(k, buffer[0]);
   }
 
   set x(x: number) {
     var { id } = this;
-    ffi.get_window_location(id, buffer_ptr);
-    ffi.move_window(id, x, buffer[1]);
+    ffi.xdo.getWindowLocation(id, buffer_ptr);
+    ffi.xdo.moveWindow(id, x, buffer[1]);
     oneTickDelete(`WindowRef.x:${id}`);
     oneTickDelete(`WindowRef.pos:${id}`);
   }
@@ -141,14 +139,14 @@ export class WindowRef {
     var k = `WindowRef.y:${id}`;
     var cache = oneTickGet(k);
     if (cache) return cache;
-    ffi.get_window_location(id, buffer_ptr);
+    ffi.xdo.getWindowLocation(id, buffer_ptr);
     return oneTickSet(k, buffer[1]);
   }
 
   set y(y: number) {
     var { id } = this;
-    ffi.get_window_location(id, buffer_ptr);
-    ffi.move_window(id, buffer[0], y);
+    ffi.xdo.getWindowLocation(id, buffer_ptr);
+    ffi.xdo.moveWindow(id, buffer[0], y);
     oneTickDelete(`WindowRef.y:${id}`);
     oneTickDelete(`WindowRef.pos:${id}`);
   }
@@ -158,14 +156,14 @@ export class WindowRef {
     var k = `WindowRef.width:${id}`;
     var cache = oneTickGet(k);
     if (cache) return cache;
-    ffi.get_window_size(id, buffer_ptr);
+    ffi.xdo.getWindowSize(id, buffer_ptr);
     return oneTickSet(k, buffer[0]);
   }
 
   set width(width: number) {
     var { id } = this;
-    ffi.get_window_size(id, buffer_ptr);
-    ffi.set_window_size(id, width, buffer[1], 0);
+    ffi.xdo.getWindowSize(id, buffer_ptr);
+    ffi.xdo.setWindowSize(id, width, buffer[1]);
     oneTickDelete(`WindowRef.width:${id}`);
     oneTickDelete(`WindowRef.size:${id}`);
   }
@@ -175,39 +173,35 @@ export class WindowRef {
     var k = `WindowRef.height:${id}`;
     var cache = oneTickGet(k);
     if (cache) return cache;
-    ffi.get_window_size(id, buffer_ptr);
+    ffi.xdo.getWindowSize(id, buffer_ptr);
     return oneTickSet(k, buffer[1]);
   }
 
   set height(height: number) {
     var { id } = this;
-    ffi.get_window_size(id, buffer_ptr);
-    ffi.set_window_size(id, buffer[0], height, 0);
+    ffi.xdo.getWindowSize(id, buffer_ptr);
+    ffi.xdo.setWindowSize(id, buffer[0], height);
     oneTickDelete(`WindowRef.height:${id}`);
     oneTickDelete(`WindowRef.size:${id}`);
   }
 
   kill() {
-    ffi.kill_window(this.id);
+    ffi.xdo.killWindow(this.id);
   }
 
   close() {
-    ffi.close_window(this.id);
-  }
-
-  quit() {
-    ffi.quit_window(this.id);
+    ffi.xdo.closeWindow(this.id);
   }
 
   click(button: number) {
-    ffi.click_window(this.id, button);
+    ffi.xdo.clickWindow(this.id, button);
   }
 
   clickMultiple(button: number, times: number, delay = 1) {
-    ffi.click_window_multiple(this.id, button, times, delay * 1000);
+    ffi.xdo.clickWindowMultiple(this.id, button, times, delay * 1000);
   }
 
   type(text: string, delay = 0) {
-    ffi.enter_text_window(this.id, encodeText(text) as any, delay * 1000);
+    ffi.xdo.enterTextWindow(this.id, encodeText(text) as any, delay * 1000);
   }
 }

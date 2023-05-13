@@ -5,7 +5,6 @@ fs.rmSync("dist", { recursive: true, force: true });
 fs.mkdirSync("dist");
 
 Bun.spawnSync(["zig", "build", "-Doptimize=ReleaseFast"]);
-Bun.spawnSync(["./zig-out/bin/bhk-binding-generator"]);
 console.log("Release build done");
 fs.copyFileSync("zig-out/lib/libbhk.so", "dist/bhk.linux-x86_64.so");
 fs.copyFileSync("README.md", "dist/README.md");
@@ -14,7 +13,6 @@ const build = await Bun.build({
   entrypoints: ["./src/index.ts"],
   target: "bun",
   external: ["@paperdave/utils"],
-  // @ts-ignore
   define: {
     "process.env.BHK_PRODUCTION": "true",
   },

@@ -90,6 +90,8 @@ const template_3 =
 ;
 const FFITypeMap = std.ComptimeStringMap([]const u8, .{
     .{ "[*:0]const u8", "FFIType.cstring" },
+    .{ "[*]const u8", "FFIType.cstring" },
+    .{ "[*c]const u8", "FFIType.cstring" },
     .{ "bool", "FFIType.bool" },
     .{ "u64", "FFIType.u64_fast" },
     .{ "u32", "FFIType.u32" },
@@ -107,7 +109,12 @@ fn typeToFFIType(comptime t: type) []const u8 {
     if (comptime FFITypeMap.get(typeName)) |v| {
         return v ++ " /* " ++ typeName ++ " */";
     } else {
-        if (std.mem.startsWith(u8, typeName, "?*") or std.mem.startsWith(u8, typeName, "*") or std.mem.startsWith(u8, typeName, "[*]")) {
+        if (std.mem.startsWith(u8, typeName, "?*") or
+            std.mem.startsWith(u8, typeName, "?*") or
+            std.mem.startsWith(u8, typeName, "*") or
+            std.mem.startsWith(u8, typeName, "[*]") or
+            std.mem.startsWith(u8, typeName, "[*c]"))
+        {
             return "FFIType.ptr /* " ++ typeName ++ " */";
         } else {
             @compileError("Unknown type: " ++ typeName);

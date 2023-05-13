@@ -15,7 +15,7 @@
     "@paperdave/utils": "^1.6.1"
   },
   "devDependencies": {
-    "bun-types": "canary",
+    "bun-types": "0.6.0-canary.20230512T025912",
     "dts-bundle-generator": "^8.0.1"
   },
   "peerDependencies": {
