@@ -1,5 +1,6 @@
 import fs from "fs";
 import pkg from "./package.json";
+import path from "path";
 
 console.log("\x1b[36m%s\x1b[0m", "Building BunHotKey...");
 
@@ -78,3 +79,16 @@ try {
 }
 
 console.log("\x1b[32m%s\x1b[0m", "Build successful!");
+
+if (!process.argv.includes("--dry-run") && !process.argv.includes("-n")) {
+  console.log();
+  console.log("\x1b[36m%s\x1b[0m", "Publishing...");
+  const publish = Bun.spawnSync({
+    cmd: ["npm", "publish"],
+    stdio: ["inherit", "inherit", "inherit"],
+    cwd: path.join(process.cwd(), "dist"),
+  });
+  if (!publish.success) {
+    process.exit(1);
+  }
+}

@@ -1,5 +1,5 @@
+import { ffi } from "@ffi";
 import { readFileSync, readlinkSync } from "fs";
-import { ffi } from "./lib";
 
 export class ProcessRef {
   constructor(public pid: number) {}

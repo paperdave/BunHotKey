@@ -1,9 +1,7 @@
-// int type, Window window, Window subwindow, int x, int y, Time time, unsigned int keycode, unsigned int modifiers
-
+import { ffi } from "@ffi";
+import { Ref } from "@shared";
 import { FFIType, JSCallback, Pointer } from "bun:ffi";
-import { WindowID, WindowRef } from "./WindowRef";
-import { ffi } from "./lib";
-import { Ref } from "./ref";
+import { WindowID, WindowRef } from "../ui/WindowRef";
 
 const Mod2Mask = 1 << 1;
 

@@ -1,7 +1,6 @@
+import { ffi } from "@ffi";
+import { encodeText, oneTickFetch, returnBuf, returnPtr } from "@shared";
 import { ptr } from "bun:ffi";
-import { oneTickFetch } from "./cache";
-import { ffi } from "./lib";
-import { buffer, buffer_ptr, encodeText } from "./shared";
 import { WindowRef } from "./WindowRef";
 
 class MousePos {
@@ -115,8 +114,8 @@ function findWindowMultiple({
 const getActiveWindow = () => new WindowRef(ffi.xdo.getActiveWindow());
 const getHoveredWindow = () => new WindowRef(ffi.xdo.getWindowAtMouse());
 const getMousePos = () => {
-  ffi.xdo.getMouseLocation(buffer_ptr);
-  return new MousePos(buffer[0], buffer[1], buffer[2]);
+  ffi.xdo.getMouseLocation(returnPtr);
+  return new MousePos(returnBuf[0], returnBuf[1], returnBuf[2]);
 };
 
 export const ui = {

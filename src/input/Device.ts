@@ -1,10 +1,9 @@
+import { ffi } from "@ffi";
+import { Ref, encodeText } from "@shared";
 import { FFIType, JSCallback, Pointer } from "bun:ffi";
-import { ffi } from "./lib";
-import { encodeText } from "./shared";
 import EventEmitter from "events";
-import { EventDeviceEventType, Key } from "./input-enum";
-import { Ref } from "./ref";
 import { getInputDevices } from "./device-reader";
+import { EventDeviceEventType, Key } from "./input-enum";
 
 enum KeyPressType {
   up = 0,
