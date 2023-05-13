@@ -4,6 +4,8 @@
 
 A linux desktop automation tool providing programmable macros using Bun, a fast JavaScript runtime. It exposes an API to define macro keys, as well as many functions to interact with your system and the various applications I use.
 
+**Note** - Only available on Linux with X11. It probably isn't possible to support Wayland, but MacOS and Windows could be supported in the future. If you're interested in helping that effort, please reach out.
+
 > The demo below is not implemented and is more of a sketch of what I want to achieve
 
 ```ts
@@ -74,6 +76,50 @@ BunHotKey exposes live bindings to your UI and window state.
     - `binding`
     - `shutdown`
     - `tick`
+- `blender`
+
+There are a number of "ref" classes which consist of an `id` and expose live bindings to them.
+
+- `WindowRef` (this is designed to be cross-platform)
+  - Properties
+    - `id` -> `WindowID`
+    - `name` -> `string`
+    - `size` -> `{ width: number, height: number }`
+    - `pos` -> `{ x: number, y: number }`
+    - `x` -> `number`
+    - `y` -> `number`
+    - `width` -> `number`
+    - `height` -> `number`
+    - `pid` -> `number`
+    - `proc` -> `ProcessRef`
+  - Methods
+    - `activate()`
+    - `click(button: number)`
+    - `clickMultiple(button: number, times: number, delay = 1)`
+    - `close()`
+    - `focus()`
+    - `kill()`
+    - `raise()`
+    - `type(text: string, delay = 0)`
+- `ProcessRef`
+  - Properties
+    - `name`
+    - `cmdline`
+    - `cwd`
+    - `exe`
+  - Methods
+    - `kill(signal: number)` (defaults to SIGTERM)
+- `I3WorkspaceRef` (create with `i3.workspace(name)`)
+  - Properties
+    - `name`
+    - `num`
+    - `focused`
+    - `visible`
+    - `rect`
+    - `output`
+    - `urgent`
+  - Methods
+    - `focus()`
 
 ### `Device`
 

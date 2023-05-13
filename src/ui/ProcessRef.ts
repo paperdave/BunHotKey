@@ -22,9 +22,9 @@ export class ProcessRef {
     return readlinkSync(`/proc/${this.pid}/exe`);
   }
 
-  get state() {
-    return readFileSync(`/proc/${this.pid}/status`, "utf8");
-  }
+  // get state() {
+  //   return readFileSync(`/proc/${this.pid}/status`, "utf8");
+  // }
 
   stat() {
     const contents = readFileSync(`/proc/${this.pid}/stat`, "utf8");
@@ -37,7 +37,7 @@ export class ProcessRef {
     };
   }
 
-  kill() {
-    return ffi.c.kill(this.pid, 9);
+  kill(status = 15) {
+    return ffi.c.kill(this.pid, status);
   }
 }

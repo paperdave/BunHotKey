@@ -13,7 +13,7 @@ import {
   I3Workspace,
   PayloadBuffer,
 } from "./i3-types";
-import { I3WorkspaceRef, i3GetWorkspaces } from "./i3-workspace";
+import { I3WorkspaceRef, i3GetWorkspaces } from "./I3WorkspaceRef";
 
 const responseQueue: ((data: any) => void)[] = [];
 
